@@ -33,16 +33,20 @@ public class HomeController extends HttpServlet {
         // 2. 取得輸出物件
         try (PrintWriter out = resp.getWriter()) {
             // 3. 輸出結構化的 HTML
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head><title>首頁 - 客戶資料服務系統</title></head>");
-            out.println("<body style='font-family: Arial; text-align: center; margin-top: 50px;'>");
-            out.println("<h1 style='color: #2c3e50;'>歡迎來到巨匠客戶資料服務系統</h1>");
-            out.println("<p style='color: #7f8c8d; font-size: 1.2em;'>HttpServletRequest 已成功解析，服務運作中。</p>");
-            out.println("<hr style='width: 50%;'>");
-            out.println("<p>目前時間：" + new java.util.Date() + "</p>");
-            out.println("</body>");
-            out.println("</html>");
+            // out.println("<!DOCTYPE html>");
+            // out.println("<html>");
+            // out.println("<head><title>首頁 - 客戶資料服務系統</title></head>");
+            // out.println("<body style='font-family: Arial; text-align: center; margin-top:
+            // 50px;'>");
+            // out.println("<h1 style='color: #2c3e50;'>歡迎來到巨匠客戶資料服務系統</h1>");
+            // out.println("<p style='color: #7f8c8d; font-size: 1.2em;'>HttpServletRequest
+            // 已成功解析，服務運作中。</p>");
+            // out.println("<hr style='width: 50%;'>");
+            // out.println("<p>目前時間：" + new java.util.Date() + "</p>");
+            // out.println("</body>");
+            // out.println("</html>");
+
+            out.println("您好，HELLO");
         }
     }
 
