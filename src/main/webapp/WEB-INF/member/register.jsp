@@ -72,8 +72,7 @@
                             <button type="reset" class="btn btn-outline-secondary">取消</button>
                         </div>
                     </form>
-                    <% Object msgAttr=request.getAttribute("msg"); if (msgAttr !=null &&
-                        !msgAttr.toString().trim().isEmpty()) { %>
+                    <% if (request.getAttribute("msg") !=null) { %>
                         <div class="alert alert-info mt-4 text-center" role="alert">
                             ${msg}
                         </div>
