@@ -31,7 +31,7 @@ public class CustomersController extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
         // 進行客戶資料所有資料查詢作業
-        List<MyCustomers> data = respo.all();
+        List<MyCustomers> data = respo.all();// 呼叫注入進來的Repositoory all() Method
         // 調用網頁JSP 借助RequestDispatcher 進行調派
         RequestDispatcher disp = request.getRequestDispatcher("/WEB-INF/customers/customers.jsp");
         // 有些狀態管理要進行 查詢結果
