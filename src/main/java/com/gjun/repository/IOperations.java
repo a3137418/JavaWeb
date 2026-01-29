@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.dao.DataAccessException;
 
-// 使用 Generic 泛型    定義影響方法參數或者是回應值相對型別
+// 使用 Generic 泛型，定義影響方法參數或者是回應值相對型別
 public interface IOperations<T, Key> {
     // 定義CRUD方法規範
     // 查詢資料
