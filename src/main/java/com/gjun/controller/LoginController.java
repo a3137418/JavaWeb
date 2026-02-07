@@ -51,11 +51,16 @@ public class LoginController extends HttpServlet {
             System.out.println("登入驗證成功");
             // 建立一個Cookie物件，帶到瀏覽器去
             Cookie cookie = new Cookie(".cred", userName);
+            // 配置Cookie資安三大本柱
+            cookie.setHttpOnly(true);// HttpOnly
+            cookie.setSecure(true);
+            // SamSite設定(手動Cookie Attribute)
+            cookie.setAttribute("SameSite", "Lax");
             // 讓Response進行參考
             resp.addCookie(cookie);
             // 透過Request問出一個既定或者新的Session 進行狀態管理(後端有一個登入成功的憑證)
             HttpSession session = request.getSession(true);// Session是一個袋子(Collection集合)
-            session.setAttribute(".cred", userName);
+            session.setAttribute(".cred", userName);// Session配合一個瀏覽器來的，持續狀態可以很多個
             // 生命週期預設多久(Slider time)
             int min = session.getMaxInactiveInterval() / 60;
             System.out.println("Session預設最大的終止時間:" + min);
