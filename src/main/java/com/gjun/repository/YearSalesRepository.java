@@ -14,10 +14,10 @@ import com.gjun.model.YearSales;
  */
 @Repository
 public class YearSalesRepository implements IOperations<YearSales, Integer> {
-
+    // 定義常數 final 內容不可變
     private final JdbcTemplate jdbcTemplate;
 
-    // 依賴注入 JdbcTemplate
+    // 依賴注入 JdbcTemplate 建構子注入 強制性注入依賴物件
     @Autowired
     public YearSalesRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -31,6 +31,7 @@ public class YearSalesRepository implements IOperations<YearSales, Integer> {
      * @return 該年度的銷售資料清單
      */
     public List<YearSales> findByYear(Integer year) throws DataAccessException {
+        // 呼叫Strored Procedure
         String sql = "{call YearSalesQry(?)}";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(YearSales.class), year);
     }
