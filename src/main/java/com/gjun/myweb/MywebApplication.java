@@ -8,7 +8,8 @@ import org.springframework.context.annotation.ComponentScan;
 //啟動應用系統同時進行整個專案關於Servlet 部署註冊收集(全部掃進來 註冊)
 @SpringBootApplication
 @ServletComponentScan(basePackages = { "com.gjun.controller", "com.gjun.filter" })
-@ComponentScan(basePackages = { "com.gjun.controller", "com.beans", "com.gjun.repository", "com.gjun.filter" })
+@ComponentScan(basePackages = { "com.gjun.controller", "com.beans", "com.gjun.repository", "com.gjun.filter",
+		"com.gjun.rest" })
 public class MywebApplication {
 
 	// Entry Point

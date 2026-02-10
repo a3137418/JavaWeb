@@ -18,7 +18,7 @@
 </head>
 <body>
     <div id="app" class="container mt-5">
-        <!-- 頁面內容插入點 -->
+        <!-- 頁面內容(Content Page)插入點 -->
         <jsp:doBody />
     </div>
 

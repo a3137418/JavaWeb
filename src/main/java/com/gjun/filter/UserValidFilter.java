@@ -13,12 +13,10 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 //設計前端登入驗證之後憑證(Cookie)攔截處理
-//設計一個Intercrptor 架構
+//設計一個Interceptor 架構
 @WebFilter(urlPatterns = { "/*" })
-@Component
 public class UserValidFilter implements Filter {
 
     @Value("${spring.security.path}")
@@ -27,26 +25,25 @@ public class UserValidFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
             throws IOException, ServletException {
-        // 佈署在網站上，通訊協定會到Http
+        // 佈署在網站上 通訊協定會到Http
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
         // 判斷使用者端請求的端點(End Point)
         String path = request.getServletPath();
-        System.out.println("使用者請求的端點" + path);
-        // 判對是否需要進行安全性檢查
-        String[] secureEndpoints = securityPaths.split(";");
-        boolean isSecurePath = false;
-        if (securityPaths != null) {
-            for (String endpoint : secureEndpoints) {
-                if (path.contains(endpoint)) {
-                    isSecurePath = true;
-                    break;
-                }
+        System.out.println("使用者請求的端點:" + path);
+
+        // 取得設定的安全目錄清單
+        String[] securityPathArray = securityPaths.split(";");
+        boolean isSecurityPath = false;
+        for (String sPath : securityPathArray) {
+            if (path.startsWith(sPath)) {
+                isSecurityPath = true;
+                break;
             }
         }
 
-        // 比對使用者提出的端點，是否含有配置的安全目錄
-        if (isSecurePath) {
+        // 比對使用提出的端點
+        if (isSecurityPath) {
             // 驗證前端憑證
             Cookie[] cookies = request.getCookies();
             // 判斷
@@ -54,38 +51,37 @@ public class UserValidFilter implements Filter {
                 for (Cookie cookie : cookies) {
                     // 看看Cookie name是否為.cred
                     if (cookie.getName().equals(".cred")) {
-                        // 要進行Double check 比對Session
+                        // 要進行Doube check 比對Session
                         if (request.getSession(false) != null) {
                             // 既定Session attribute
-                            if ((request.getSession(false)).getAttribute(".cred") != null) {
+                            if (request.getSession(false).getAttribute(".cred") != null) {
                                 String sessionValue = (String) request.getSession(false).getAttribute(".cred");
                                 if (cookie.getValue().equals(sessionValue)) {
                                     // 合法使用者
                                     chain.doFilter(request, response);
-                                    break;
+                                    return; // 必須 return，否則會繼續往下執行 redirect
                                 }
                             }
                         }
                     }
                 }
             }
-            // 是否安全性檢查是否前端是否亮出登入憑證)
-            // 進行相對目錄判斷，是否需要啟動安全驗證(是否要看看前端是否登入驗證憑證)亮身分證驗證
-            System.out.println("卡住了...");
+            // 進行相對目錄判斷 是否需要啟動安全驗證(是否要看看前端是否登入驗證憑證)
+            System.out.println("安全目錄驗證失敗，攔截請求...");
             // 重新導向登入頁面
             response.sendRedirect("/login");
-
         } else {
             // 不驗證
             // 一律往下走
             chain.doFilter(request, response);
         }
-        // 回應也有經過這裡...???
+        // 回應也有經過這裡...????
 
     }
 
-    // 聆聽該Filter產生一個個體物件，進行初始化
+    // 聆聽該Filter產生一個個體物件 進行初始化
     public void init(FilterConfig config) {
-        System.out.println("User valid Filter產生個體物件");
+        System.out.println("User Valid Filter產生個體物件");
     }
+
 }
