@@ -36,7 +36,7 @@ public class CustomersRESTService {
     }
 
     // 傳遞客戶編號 找出相對客戶資料(採用Path as Parameter)
-    //
+    // Content-Type 稱呼為MIME Type
     @GetMapping(value = "/qry/{id}", produces = "application/json")
     public ResponseEntity<Object> findById(@PathVariable(name = "id", required = true) String customerID) {
         // 借助注入的Repository物件進行查詢

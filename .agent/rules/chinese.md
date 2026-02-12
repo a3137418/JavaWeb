@@ -1,5 +1,5 @@
 ---
-description: 
+trigger: always_on
 ---
 
 ## agent Session聊天視窗規則

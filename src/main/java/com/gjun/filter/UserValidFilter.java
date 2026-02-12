@@ -32,6 +32,13 @@ public class UserValidFilter implements Filter {
         String path = request.getServletPath();
         System.out.println("使用者請求的端點:" + path);
 
+        // 排除 API 端點和靜態資源，不需要安全驗證
+        if (path.startsWith("/api/") || path.startsWith("/js/") ||
+                path.startsWith("/css/") || path.startsWith("/images/")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         // 取得設定的安全目錄清單
         String[] securityPathArray = securityPaths.split(";");
         boolean isSecurityPath = false;
