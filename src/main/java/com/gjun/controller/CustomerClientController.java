@@ -1,7 +1,6 @@
 package com.gjun.controller;
 
 import java.io.IOException;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,23 +9,23 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * CustomerClientController
- * 提供簡單的 Hello World 提示
+ * 提供客戶端簡單提示字串的控制器 (Servlet MVC)
  */
-@WebServlet(name = "CustomerClientController", urlPatterns = "/customers/main")
+@WebServlet("/customers/main")
 public class CustomerClientController extends HttpServlet {
-
     private static final long serialVersionUID = 1L;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        // 設定簡單的 Hello World 字串提示
-        String message = "Hello World! 這是來自 CustomerClientController 的訊息。";
-        request.setAttribute("message", message);
+        // 1. 設定簡單提示字串
+        String message = "Hello World! 歡迎來到客戶端管理系統。";
 
-        // 調派至 WEB-INF/views/users/customers/index.jsp
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/users/customers/index.jsp");
-        dispatcher.forward(request, response);
+        // 2. 傳遞到 Request Scope
+        request.setAttribute("helloMessage", message);
+
+        // 3. 轉向至 JSP 視圖 (WEB-INF 下以加強安全性)
+        request.getRequestDispatcher("/WEB-INF/views/customers/index.jsp").forward(request, response);
     }
 }

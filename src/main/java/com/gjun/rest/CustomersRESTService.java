@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gjun.model.Message;
 import com.gjun.model.MyCustomers;
 import com.gjun.repository.CustomersCRUDRepository;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -63,6 +65,32 @@ public class CustomersRESTService {
 
     }
 
+    // 新增客戶資料
+    // Request Method-POST 採用Body 注入DTO(MyCustomers JavaBean)
+    @PostMapping(path = "/add", consumes = { "application/json" }, produces = "application/json;charset=UTF-8")
+    public ResponseEntity<Message> addCustomers(@RequestBody MyCustomers customers) {
+        Message message = null;
+        try {
+            boolean result = this.repository.add(customers);
+            if (result) {
+                message = new Message();
+                message.setCode(200);
+                message.setMsg("客戶編號:" + customers.getCustomerID() + " 新增成功!!!");
+                return ResponseEntity.ok(message);
+            } else {
+                message = new Message();
+                message.setCode(400);
+                message.setMsg("新增失敗，請確認資料是否正確!!");
+                return ResponseEntity.status(400).body(message);
+            }
+        } catch (DataAccessException ex) {
+            message = new Message();
+            message.setCode(500);
+            message.setMsg("伺服器錯誤:" + ex.getMessage());
+            return ResponseEntity.status(500).body(message);
+        }
+    }
+
     // 修改 傳遞相對json資料 to Object，跟相對客戶編號 進行修改作業
     // Request Method-PUT 採用Body 注入DTO 注入一個JavaBean 硬性規定前端採用Request Header
     // Content-Type:application/json (MIME Type)
@@ -93,7 +121,33 @@ public class CustomersRESTService {
             message.setMsg("客戶編號:" + customerID + " 不存在!!");
             return ResponseEntity.status(404).body(message);
         }
+    }
 
+    // 刪除 傳遞客戶編號 進行刪除作業
+    // Request Method-DELETE
+    @DeleteMapping(path = "/delete/{id}", produces = "application/json;charset=UTF-8")
+    public ResponseEntity<Message> deleteCustomers(@PathVariable("id") String customerID) {
+        Message message = null;
+        try {
+            // 執行刪除作業
+            boolean result = this.repository.delete(customerID);
+            if (result) {
+                message = new Message();
+                message.setCode(200);
+                message.setMsg("客戶編號:" + customerID + " 刪除成功!!!");
+                return ResponseEntity.ok(message);
+            } else {
+                message = new Message();
+                message.setCode(404);
+                message.setMsg("刪除失敗，找不到客戶編號:" + customerID + " !!");
+                return ResponseEntity.status(404).body(message);
+            }
+        } catch (DataAccessException ex) {
+            message = new Message();
+            message.setCode(500);
+            message.setMsg("伺服器錯誤:" + ex.getMessage());
+            return ResponseEntity.status(500).body(message);
+        }
     }
 
 }
