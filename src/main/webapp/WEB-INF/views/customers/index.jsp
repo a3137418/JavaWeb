@@ -233,7 +233,7 @@
                             },
                             // 顯示新增客戶對話盒
                             showAddModal() {
-                                this.newCustomer = {};
+                                this.newCustomer = {}; //建立一個空JS物件
                                 const modalElement = document.getElementById('addCustomerModal');
                                 const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
                                 modal.show();
