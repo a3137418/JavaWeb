@@ -52,8 +52,9 @@ public class LoginController extends HttpServlet {
             // 建立一個Cookie物件，帶到瀏覽器去
             Cookie cookie = new Cookie(".cred", userName);
             // 配置Cookie資安三大本柱
-            cookie.setHttpOnly(true);// HttpOnly
-            cookie.setSecure(true);
+            cookie.setHttpOnly(true);// HttpOnly它防止駭客用 跨站腳本攻擊 (XSS) 透過 JavaScript 偷走你的 Cookie。一旦設為 true，連開發者自己用
+                                     // alert(document.cookie) 都看不到這個 .cred。
+            cookie.setSecure(true);// Secure 確保 Cookie 只在 HTTPS 連線下傳送，防止在 HTTP 傳輸中被竊聽。
             // SamSite設定(手動Cookie Attribute)
             cookie.setAttribute("SameSite", "Lax");
             // 讓Response進行參考

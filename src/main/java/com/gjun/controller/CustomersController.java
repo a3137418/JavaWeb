@@ -37,7 +37,5 @@ public class CustomersController extends HttpServlet {
         // 有些狀態管理要進行 查詢結果
         request.setAttribute("customers", data);
         disp.forward(request, resp);
-
     }
-
 }

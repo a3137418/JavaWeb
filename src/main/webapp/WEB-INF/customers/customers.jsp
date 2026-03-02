@@ -35,6 +35,7 @@
                                                     <td>${customer.phone}</td>
                                                     <td>${customer.country}</td>
                                                     <td>
+                                                        <button class="btn btn-sm btn-primary">新增</button>
                                                         <button class="btn btn-sm btn-warning">編輯</button>
                                                         <button class="btn btn-sm btn-danger">刪除</button>
                                                     </td>

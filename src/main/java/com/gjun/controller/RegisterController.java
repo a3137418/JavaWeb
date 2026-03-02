@@ -25,7 +25,7 @@ public class RegisterController extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // 將請求轉發到 JSP 頁面
-        request.getRequestDispatcher("/WEB-INF/views/users/register.jsp")
+        request.getRequestDispatcher("/WEB-INF/member/register.jsp")
                 .forward(request, response);
     }
 
@@ -66,6 +66,6 @@ public class RegisterController extends HttpServlet {
 
         // 將訊息帶回頁面
         request.setAttribute("msg", message);
-        request.getRequestDispatcher("/WEB-INF/views/users/register.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/member/register.jsp").forward(request, response);
     }
 }
